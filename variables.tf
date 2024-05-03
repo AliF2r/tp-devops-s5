@@ -22,18 +22,40 @@ variable "subnet_name" {
   description = "The name of the subnet."
 }
 
-
 variable "public_ip_name" {
   type        = string
   default     = "myPublicIP"
   description = "The name of the public IP address."
 }
 
-
 variable "network_security_group_name" {
   type        = string
   default     = "myNetworkSecurityGroup"
   description = "The name of the network security group."
+}
+
+variable "ssh_security_rule_name" {
+  type        = string
+  default     = "SSH"
+  description = "The name of the SSH security rule."
+}
+
+variable "ssh_security_rule_port" {
+  type        = string
+  default     = "22"
+  description = "The port for the SSH security rule."
+}
+
+variable "front_security_rule_name" {
+  type        = string
+  default     = "FRONT"
+  description = "The name of the front security rule."
+}
+
+variable "front_security_rule_port" {
+  type        = string
+  default     = "8080"
+  description = "The port for the front security rule."
 }
 
 variable "nic_name" {
@@ -74,6 +96,6 @@ variable "vm_computer_name" {
 
 variable "vm_admin_username" {
   type        = string
-  default     = "azureadmin"
+  default     = "alimustapha"
   description = "The admin username for the new VM."
 }

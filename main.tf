@@ -35,25 +35,25 @@ resource "azurerm_network_security_group" "my_terraform_nsg" {
   resource_group_name = azurerm_resource_group.rg.name
 
   security_rule {
-    name                       = "SSH"
+    name                       = var.ssh_security_rule_name
     priority                   = 1001
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "22"
+    destination_port_range     = var.ssh_security_rule_port
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
   security_rule {
-    name                       = "React-frontend"
+    name                       = var.front_security_rule_name
     priority                   = 110
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "8080"
+    destination_port_range     = var.front_security_rule_port
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
@@ -123,7 +123,7 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 
   admin_ssh_key {
     username   = var.vm_admin_username
-    public_key = lookup(azapi_resource_action.ssh_public_key_gen.output, "publicKey", null)
+    public_key = jsondecode(jsonencode(azapi_resource_action.ssh_public_key_gen.output)).publicKey
   }
 
   boot_diagnostics {
@@ -134,16 +134,16 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 # Execute provisioning scripts
 resource "null_resource" "counter_app" {
   triggers = {
-    ip         = azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address
-    private_key = lookup(azapi_resource_action.ssh_public_key_gen.output, "privateKey", null)
-    user       = var.vm_admin_username
+    ip          = azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address
+    private_key = jsondecode(jsonencode(azapi_resource_action.ssh_public_key_gen.output)).privateKey
+    user        = var.vm_admin_username
   }
 
   connection {
     type        = "ssh"
     host        = azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address
     user        = var.vm_admin_username
-    private_key = lookup(azapi_resource_action.ssh_public_key_gen.output, "privateKey", null)
+    private_key = jsondecode(jsonencode(azapi_resource_action.ssh_public_key_gen.output)).privateKey
     timeout     = "2m"
   }
 
