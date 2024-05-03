@@ -1,13 +1,3 @@
-output "resource_group_name" {
-  value       = azurerm_resource_group.rg.name
-  description = "Name of the resource group."
-}
-
-output "public_ip_address" {
-  value       = azurerm_linux_virtual_machine.my_terraform_vm.public_ip_address
-  description = "Public IP address of the virtual machine."
-}
-
 output "instructions" {
   value = <<EOF
 The virtual machine and associated resources have been successfully created and deployed.

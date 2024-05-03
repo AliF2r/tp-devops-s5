@@ -1,7 +1,4 @@
-# Variables
-username="alimustapha"
-app_name="counter-app"
-git_repo="https://github.com/mustaphaboudouch/counter-vite.git"
+#!/bin/sh
 
 # Update package lists and search for Docker
 sudo apt update
@@ -14,13 +11,13 @@ sudo apt install -y git
 sudo apt install -y docker-compose
 
 # Configure and enable Docker service
-sudo usermod -a -G docker $username
+sudo usermod -a -G docker alimustapha
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
 
 # Download the application
-sudo git clone $git_repo $app_name
-cd $app_name
+sudo git clone https://github.com/mustaphaboudouch/counter-vite.git counter-app
+cd counter-app
 
 # Build and run the application
 sudo docker-compose build

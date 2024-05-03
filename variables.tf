@@ -1,13 +1,13 @@
-variable "resource_group_name" {
-  type        = string
-  default     = "myResourceGroup"
-  description = "The name of the resource group in which to create the resources."
-}
-
 variable "resource_group_location" {
   type        = string
   default     = "westeurope"
   description = "The location/region where the resource group will be created."
+}
+
+variable "resource_group_name_prefix" {
+  type        = string
+  default     = "rg"
+  description = "Prefix of the resource group that's combined with a random ID so name is unique in your Azure subscription."
 }
 
 variable "virtual_network_name" {
